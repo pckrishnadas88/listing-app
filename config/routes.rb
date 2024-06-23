@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :listings
   resources :categories
   devise_for :users
   get 'pages/index'

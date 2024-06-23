@@ -71,19 +71,33 @@
                </div>
             </div>
          </nav>
-          <% if notice || alert %>
+        <section class="section">
+
+              <% if notice %>
+            <article class="message is-success mb-0">
+               <div class="message-header">
+                  <p>Success</p>
+                  <button class="delete" aria-label="delete"></button>
+               </div>
+               <div class="message-body">
+                  <p class="notice"><%= notice %></p>
+               </div>
+            </article>
+          <% end %>
+           <% if  alert %>
             <article class="message is-danger mb-0">
                <div class="message-header">
                   <p>Error</p>
                   <button class="delete" aria-label="delete"></button>
                </div>
                <div class="message-body">
-                  <p class="notice"><%= notice %></p>
                   <p class="alert"><%= alert %></p>
                </div>
             </article>
           <% end %>
+         </section>
          <div class="container hero is-fullheight">
+           
             <%= yield %>
          </div>
       </main>

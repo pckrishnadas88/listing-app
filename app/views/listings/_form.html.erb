@@ -1,0 +1,40 @@
+<%= form_with(model: listing, class: "contents") do |form| %>
+  <% if listing.errors.any? %>
+    <article class="message is-danger mb-0">
+        <div class="message-header">
+          <h2><%= pluralize(listing.errors.count, "error") %> prohibited this listing from being saved:</h2>
+          <%# <button class="delete" aria-label="delete"></button> %>
+        </div>
+        <div class="message-body">
+          <% listing.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </div>
+    </article>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :title %>
+    <%= form.text_field :title, class: "input" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :description %>
+    <%= form.text_area :description, class: "textarea" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :location %>
+    <%= form.text_field :location, class: "input" %>
+  </div>
+  <div class="my-5">
+    <%= form.label :category_id %>
+      <div class="select">
+        <% categories_array = Category.all.map { |category| [category.name, category.id] } %>
+        <%= form.select(:category_id, options_for_select(categories_array)) %>
+      </div>
+  </div>
+  <div class="inline">
+    <%= form.submit class: "button is-primary" %>
+  </div>
+<% end %>
