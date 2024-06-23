@@ -1,21 +1,43 @@
-<div class="w-full">
+<div class="container">
   <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
   <% end %>
 
   <% content_for :title, "Categories" %>
+    <h1 class="title">Categories</h1>
 
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Categories</h1>
-    <%= link_to "New category", new_category_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+  <div>
+    <%= link_to "New category", new_category_path, class: "button is-primary" %>
   </div>
+<br>
 
-  <div id="categories" class="min-w-full">
-    <% @categories.each do |category| %>
-      <%= render category %>
-      <p>
-        <%= link_to "Show this category", category, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-      </p>
-    <% end %>
-  </div>
+  <table class="table is-bordered is-striped">
+  <thead>
+    <tr>
+      <th>Sno</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+       <% @categories.each_with_index do |category, i| %>
+          <tr>
+            <td><%= i+1 %></td>
+            <td><%= category.name %></td>
+            <td><%= category.description %></td>
+            <td>
+              <%# <%= link_to "Show this category", category %>
+              <a href="<%= category_path(category.id) %>" title="Show Category">
+                <span class="icon">
+                  <i class="fas fa-eye"></i>
+                </span>
+              </a>
+              
+ 
+              </td>
+          </tr>
+      <% end %>
+    </tbody>
+    </table>
 </div>
