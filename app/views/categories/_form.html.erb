@@ -1,0 +1,29 @@
+<%= form_with(model: category, class: "contents") do |form| %>
+  <% if category.errors.any? %>
+    <article class="message is-danger mb-0">
+        <div class="message-header">
+          <h2><%= pluralize(category.errors.count, "error") %> prohibited this category from being saved:</h2>
+          <%# <button class="delete" aria-label="delete"></button> %>
+        </div>
+        <div class="message-body">
+          <% category.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </div>
+    </article>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: "input is-normal" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_field :description, class: "input is-normal" %>
+  </div>
+
+  <div class="control">
+    <%= form.submit class: "button is-primary" %>
+  </div>
+<% end %>

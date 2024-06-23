@@ -5,7 +5,7 @@
       <meta name="viewport" content="width=device-width,initial-scale=1">
       <%= csrf_meta_tags %>
       <%= csp_meta_tag %>
-      <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+      <%# <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload"  %>
       <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
       <%= javascript_importmap_tags %>
       <link rel="stylesheet"  href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
@@ -70,8 +70,18 @@
                </div>
             </div>
          </nav>
-         <p class="notice"><%= notice %></p>
-         <p class="alert"><%= alert %></p>
+          <% if notice || alert %>
+            <article class="message is-danger mb-0">
+               <div class="message-header">
+                  <p>Error</p>
+                  <button class="delete" aria-label="delete"></button>
+               </div>
+               <div class="message-body">
+                  <p class="notice"><%= notice %></p>
+                  <p class="alert"><%= alert %></p>
+               </div>
+            </article>
+          <% end %>
          <div class="container hero is-fullheight">
             <%= yield %>
          </div>
