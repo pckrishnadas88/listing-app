@@ -1,6 +1,24 @@
    <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
   <% end %>
+  <% if params[:query] %>
+  <h1>Showing results for <strong><%= params[:query] %></strong> <%= @listings.length %> results found</h1><br>
+  <% end %>
+  <div class="container" data-controller="listings">
+     <%= form_with url: "/", method: :get do |form| %>
+        <div class="field has-addons">
+            <div class="control">
+              <%= form.text_field :query,  placeholder: "Find a listing", class: "input", required: true, value:  params[:query]  %>
+          </div>
+        <div class="control">
+          <%= form.submit "Search", class: "button is-primary" %>
+          <button class="button is-info" data-action="click->listings#reset">
+            clear
+          </button>
+        </div>
+      </div>
+     <% end %>
+  </div>
   <% @listings.each_slice(3) do |listings_three_at_a_time| %>
       <div class="columns container">
         <% listings_three_at_a_time.each do |listing| %>
@@ -41,6 +59,7 @@
                     <div class="media-content">
                       <p class="title is-4"><%= listing.title %></p>
                       <p class="subtitle is-6"><%= listing.user.email %></p>
+                      <p class="title is-4">&#x20B9; <%= listing.price %></p>
                       <span class="tag is-primary is-medium">
                         <%= listing.category.name %>
                       </span>
@@ -48,7 +67,7 @@
                   </div>
 
                   <div class="content">
-                    <%= listing.description %>
+                    <%= listing.location.upcase %>
                     <br />
                     <time datetime="2016-1-1"><%= listing.created_at.strftime("%B %d %Y, %l:%M%P") %></time>
                     <%= link_to "Show this listing", listing, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>

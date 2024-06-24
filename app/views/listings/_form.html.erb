@@ -34,8 +34,15 @@
         <%= form.select(:category_id, options_for_select(categories_array)) %>
       </div>
   </div>
+   <div class="my-5">
+    <%= form.label :price %>
+    <%= form.text_field :price, class: "input" %>
+  </div>
   <div class="my-5">
       <%= form.label :images %>
+      <% @listing.images.each do |image| %>
+      <%= form.hidden_field :images, multiple: true, value: image.signed_id %>
+    <% end %>
       <%= form.file_field :images, multiple: true %>
   </div>
   <div class="inline">

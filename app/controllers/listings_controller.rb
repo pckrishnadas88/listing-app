@@ -5,7 +5,19 @@ class ListingsController < ApplicationController
 
   # GET /listings or /listings.json
   def index
-    @listings = Listing.all.order('created_at DESC')
+    if params[:query]
+      search_term = "%#{params[:query]}%"
+      @listings = Listing
+                  .where(["title ILIKE ? OR description  ILIKE ? OR location ILIKE ?", search_term, search_term, search_term])
+                  # .where("title ILIKE ?", search_term)
+                  # .or(Listing.where("description ILIKE ?", search_term))
+                  #.where("price ILIKE ?", search_term) # decimal needs typecast to query
+                  #.or(Listing.where("location ILIKE ?", search_term))
+                  .order('created_at DESC')
+      @search = search_term
+    else
+      @listings = Listing.all.order('created_at DESC')
+    end
   end
 
   # GET /listings/1 or /listings/1.json
@@ -26,7 +38,6 @@ class ListingsController < ApplicationController
     @listing = Listing.new(listing_params)
     @listing.user_id = current_user.id
     @listing.images.attach(params[:images])
-    pp (@listing)
 
     respond_to do |format|
       if @listing.save
@@ -70,6 +81,6 @@ class ListingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def listing_params
-      params.require(:listing).permit(:title, :description, :location, :user_id, :category_id, images: [])
+      params.require(:listing).permit(:title, :description, :location, :user_id, :category_id, :price, :query, images: [])
     end
 end
