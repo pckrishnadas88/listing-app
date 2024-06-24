@@ -5,7 +5,7 @@ class ListingsController < ApplicationController
 
   # GET /listings or /listings.json
   def index
-    @listings = Listing.all
+    @listings = Listing.all.order('created_at DESC')
   end
 
   # GET /listings/1 or /listings/1.json
@@ -25,7 +25,8 @@ class ListingsController < ApplicationController
   def create
     @listing = Listing.new(listing_params)
     @listing.user_id = current_user.id
-    #pp (@listing)
+    @listing.images.attach(params[:images])
+    pp (@listing)
 
     respond_to do |format|
       if @listing.save
@@ -69,6 +70,6 @@ class ListingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def listing_params
-      params.require(:listing).permit(:title, :description, :location, :user_id, :category_id)
+      params.require(:listing).permit(:title, :description, :location, :user_id, :category_id, images: [])
     end
 end

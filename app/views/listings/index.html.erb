@@ -1,21 +1,65 @@
-<div class="w-full">
-  <% if notice.present? %>
+   <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
   <% end %>
+  <% @listings.each_slice(3) do |listings_three_at_a_time| %>
+      <div class="columns container">
+        <% listings_three_at_a_time.each do |listing| %>
+          
+            <div class="column is-one-third">
+              <div class="card">
+                <a href="<%= listing_path(listing.id) %>" title="Show listing">
+                <div class="card-image">
+                  <figure class="image is-4by3">
+                    <% if listing.images[0] %>
+                    <%# Get random image from the uploaded one %>
+                        <img
+                          src="<%= url_for(listing.images.sample) %>"
+                          alt="Placeholder image"
+                        />
+                      <% else %>
+                      <img
+                        src="https://bulma.io/assets/images/placeholders/1280x960.png"
+                        alt="Placeholder image"
+                      />
+                      <% end %>
+                    
+                  </figure>
+                </div>
+                 </a>
+                <div class="card-content">
+                  <div class="media">
+                    <%# <div class="media-left">
+                       <figure class="image is-48x48">
+                        <img
+                          src="https://bulma.io/assets/images/placeholders/96x96.png"
+                          alt="Placeholder image"
+                        />
+                      
+                      </figure>
+                     
+                    </div> %>
+                    <div class="media-content">
+                      <p class="title is-4"><%= listing.title %></p>
+                      <p class="subtitle is-6"><%= listing.user.email %></p>
+                      <span class="tag is-primary is-medium">
+                        <%= listing.category.name %>
+                      </span>
+                    </div>
+                  </div>
 
-  <% content_for :title, "Listings" %>
-
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Listings</h1>
-    <%= link_to "New listing", new_listing_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
-  </div>
-
-  <div id="listings" class="min-w-full">
-    <% @listings.each do |listing| %>
-      <%= render listing %>
-      <p>
-        <%= link_to "Show this listing", listing, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-      </p>
-    <% end %>
-  </div>
-</div>
+                  <div class="content">
+                    <%= listing.description %>
+                    <br />
+                    <time datetime="2016-1-1"><%= listing.created_at.strftime("%B %d %Y, %l:%M%P") %></time>
+                    <%= link_to "Show this listing", listing, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+         
+        <% end %>
+        </div>
+      
+   <% end %>
+<br>
+ 
